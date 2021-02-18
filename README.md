@@ -2,7 +2,7 @@ A Flutter application that showcases popular artists from the artsy
 website (https://metaphysics-staging.artsy.net/). The app has one
 screen which is shown below.
 
-![home screen](images/screenshot.png)
+![home screen](images/screenshot.png =180x300)
 
 To access the application, you can compile or find the apk under the
 releases tag
