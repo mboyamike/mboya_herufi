@@ -51,35 +51,39 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('GraphQL test'),
       ),
-      body: Query(
-        options: QueryOptions(
-          document: gql(queryString),
-        ),
-        builder: (QueryResult result,
-            {VoidCallback refetch, FetchMore fetchMore}) {
-          if (result.hasException) {
-            return Text(result.exception.toString());
-          }
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Query(
+          options: QueryOptions(
+            document: gql(queryString),
+          ),
+          builder: (QueryResult result,
+              {VoidCallback refetch, FetchMore fetchMore}) {
+            if (result.hasException) {
+              return Text(result.exception.toString());
+            }
 
-          if (result.isLoading)
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-
-          List artists = result.data['popular_artists']['artists'];
-          return ListView.builder(
-            itemCount: artists.length,
-            itemBuilder: (_, index) {
-              return ListTile(
-                leading: TileNetworkImage(
-                  url: artists[index]['image']['url'],
-                ),
-                title: Text(artists[index]['name']),
-                subtitle: Text(artists[index]['bio']),
+            if (result.isLoading)
+              return Center(
+                child: CircularProgressIndicator(),
               );
-            },
-          );
-        },
+
+            List artists = result.data['popular_artists']['artists'];
+            return ListView.separated(
+              itemCount: artists.length,
+              separatorBuilder: (context,_) => Divider(),
+              itemBuilder: (_, index) {
+                return ListTile(
+                  leading: TileNetworkImage(
+                    url: artists[index]['image']['url'],
+                  ),
+                  title: Text(artists[index]['name']),
+                  subtitle: Text(artists[index]['bio']),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
